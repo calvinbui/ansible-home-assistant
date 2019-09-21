@@ -1,0 +1,24 @@
+---
+
+- name: Create Home Assistant directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ home_assistant_config_directory }}"
+
+- name: Set Docker container parameters
+  set_fact:
+    home_assistant_container_parameters:
+      name: "{{ home_assistant_name }}"
+      image: "{{ home_assistant_image }}"
+      state: started
+      network_mode: host
+      init: true
+      volumes:
+        - "{{ home_assistant_config_directory }}:/config"
+      env: "{{ home_assistant_environment_variables }}"
+
+- name: Create Home Assistant container
+  docker_container: "{{ home_assistant_container_parameters | combine(home_assistant_docker_additional_options) }}"
+  register: home_assistant_container

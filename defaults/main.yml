@@ -1,0 +1,10 @@
+---
+
+home_assistant_name: haus
+home_assistant_image: homeassistant/home-assistant:stable
+home_assistant_config_directory: /tmp/haus
+home_assistant_environment_variables:
+  TZ: Sydney/Australia
+
+home_assistant_docker_additional_options:
+  restart_policy: unless-stopped
